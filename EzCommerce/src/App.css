@@ -1,0 +1,47 @@
+:root {
+  /* Light mode (padrão) */
+  --color-primary: #28a745;
+  --color-primary-light: #a6e3b8;
+  --color-secondary: #007bff;
+  --color-accent: #ffc107;
+
+  --color-background: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-text: #343a40;
+  --color-text-muted: #6c757d;
+
+  --color-danger: #dc3545;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #50d18f;
+    --color-primary-light: #a6e3b8;
+    --color-secondary: #66b2ff;
+    --color-accent: #ffd966;
+
+    --color-background: #121212;
+    --color-surface: #1e1e1e;
+    --color-text: #f1f1f1;
+    --color-text-muted: #b0b0b0;
+
+    --color-danger: #ff6b6b;
+  }
+}
+/* Estilos globais */
+
+.full-page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.full-page-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px; /* Espaço pro Header fixo */
+  padding-bottom: 60px; /* Espaço pro Footer */
+}
