@@ -1,0 +1,19 @@
+.custom-footer {
+  color: var(--color-text);
+  padding: 1rem 0;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.footer-text {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.footer-link {
+  color: var(--color-text-muted);
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: var(--color-text);
+}

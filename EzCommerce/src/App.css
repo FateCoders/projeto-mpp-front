@@ -1,5 +1,5 @@
 :root {
-  /* Light mode (padrão) */
+  /* Light mode */
   --color-primary: #28a745;
   --color-primary-light: #a6e3b8;
   --color-secondary: #007bff;
@@ -7,34 +7,42 @@
 
   --color-background: #f8f9fa;
   --color-surface: #ffffff;
-  --color-text: #343a40;
+  --color-text: #212529;
   --color-text-muted: #6c757d;
 
   --color-danger: #dc3545;
 }
 
-/* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-primary: #50d18f;
-    --color-primary-light: #a6e3b8;
+    --color-primary: #60d38f;
+    --color-primary-light: #a0e6b4;
     --color-secondary: #66b2ff;
-    --color-accent: #ffd966;
+    --color-accent: #ffde85;
 
-    --color-background: #121212;
-    --color-surface: #1e1e1e;
-    --color-text: #f1f1f1;
-    --color-text-muted: #b0b0b0;
+    --color-background: #1e1e1e;
+    --color-surface: #2a2a2a;
+    --color-text: #e6e6e6;
+    --color-text-muted: #a9a9a9;
 
-    --color-danger: #ff6b6b;
+    --color-danger: #ff7b7b;
   }
 }
+
 /* Estilos globais */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
 .full-page-layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: var(--color-background);
 }
 
 .full-page-content {
@@ -42,6 +50,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 80px; /* Espaço pro Header fixo */
-  padding-bottom: 60px; /* Espaço pro Footer */
+  padding-top: 80px; /* espaço para header fixo */
+  padding-bottom: 60px; /* espaço para footer */
+  background-color: var(--color-surface);
+  color: var(--color-text);
 }
