@@ -42,3 +42,32 @@
 .nav-section.active {
   border-bottom: 2px solid white;
 }
+
+.hover-bg-light:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-text);
+}
+
+.custom-navbar .nav-section {
+  color: var(--color-text);
+  transition: border-bottom 0.3s, color 0.3s;
+}
+
+.custom-navbar .nav-section.active,
+.custom-navbar .nav-section:hover {
+  border-bottom: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.position-absolute.bg-white {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.custom-navbar .nav-section {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
