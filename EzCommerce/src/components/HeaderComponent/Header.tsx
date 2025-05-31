@@ -20,7 +20,6 @@ const Header: React.FC = () => {
     setSelectedCategory(category);
     setShowCategories(false);
     setExpanded(false);
-    // Aqui no futuro você pode disparar a função para filtrar produtos
     console.log("Categoria selecionada:", category);
   };
 
@@ -46,7 +45,7 @@ const Header: React.FC = () => {
           onClick={() => setExpanded(!expanded)}
         />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
+          <Nav className="ms-auto gap-3">
             <Nav.Link
               as={Link}
               to="/"
@@ -59,20 +58,31 @@ const Header: React.FC = () => {
 
             <Nav.Link
               as={Link}
-              to="/about"
-              className={`nav-section ${isActive("/about") ? "active" : ""}`}
+              to="/contact"
+              className={`nav-section ${isActive("/contact") ? "active" : ""}`}
               onClick={() => setExpanded(false)}
             >
-              <i className="bi bi-info-circle-fill me-1"></i>
-              Sobre
+              <i className="bi bi-envelope-fill me-1"></i>
+              Contato
             </Nav.Link>
+
+            <Nav.Link
+              as={Link}
+              to="/cart"
+              className={`nav-section ${isActive("/cart") ? "active" : ""}`}
+              onClick={() => setExpanded(false)}
+            >
+              <i className="bi bi-cart-fill me-1"></i>
+              Carrinho
+            </Nav.Link>
+
             <Nav.Item
               className="nav-section position-relative"
               onMouseEnter={() => setShowCategories(true)}
               onMouseLeave={() => setShowCategories(false)}
               style={{ cursor: "pointer" }}
             >
-              <div className="d-flex align-items-center justify-content-center h-100 text-white">
+              <div className="d-flex align-items-center  h-100 text-white">
                 Categorias
                 <i className="bi bi-caret-down-fill ms-1"></i>
               </div>
@@ -100,16 +110,6 @@ const Header: React.FC = () => {
                 </div>
               )}
             </Nav.Item>
-
-            <Nav.Link
-              as={Link}
-              to="/cart"
-              className={`nav-section ${isActive("/cart") ? "active" : ""}`}
-              onClick={() => setExpanded(false)}
-            >
-              <i className="bi bi-cart-fill me-1"></i>
-              Carrinho
-            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
