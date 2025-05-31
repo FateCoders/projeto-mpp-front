@@ -1,0 +1,107 @@
+/* CartPage.css */
+
+.shopping-cart-page {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+.shopping-cart-page h1,
+.shopping-cart-page p {
+  color: var(--color-text);
+}
+
+.cart-card {
+  background-color: #f0f2f5; /* mais escuro que o fundo claro, mas suave */
+  color: var(--color-text);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+}
+
+/* Tabela */
+.cart-card table {
+  margin-bottom: 0;
+  border-collapse: collapse;
+}
+
+.cart-card th,
+.cart-card td {
+  vertical-align: middle;
+  padding: 12px;
+  border-bottom: 1px solid var(--color-text-muted);
+  color: var(--color-text);
+  background-color: transparent;
+}
+
+.cart-card thead {
+  background-color: var(--color-primary-light);
+  color: var(--color-text);
+}
+
+.cart-card th {
+  font-weight: 600;
+}
+
+/* Botões */
+.cart-card .btn-danger {
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.cart-card .btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: #fff;
+}
+
+.cart-card .btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.cart-card .btn-primary:hover {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary-light);
+  color: var(--color-text);
+}
+
+/* Total e botão finalização */
+.shopping-cart-page .total-container {
+  background-color: #f0f2f5;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.borderRadiusTableRight{
+  border-radius: 0 10px 10px 0;
+}
+.borderRadiusTableLeft{
+  border-radius: 10px 0 0 10px;
+}
+
+/* ⚙️ Modo escuro */
+@media (prefers-color-scheme: dark) {
+  .cart-card {
+    background-color: #2e2e2e;
+    color: var(--color-text);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .cart-card thead {
+    background-color: var(--color-primary);
+    color: var(--color-text);
+  }
+
+  .cart-card th,
+  .cart-card td {
+    border-bottom: 1px solid #444;
+  }
+
+  .shopping-cart-page .total-container {
+    background-color: #2e2e2e;
+  }
+}
