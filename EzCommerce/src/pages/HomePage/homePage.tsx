@@ -106,7 +106,7 @@ const HomePage = () => {
       <HeaderComponent />
 
       {/* Carousel */}
-      <div className="w-100 carousel-container">
+      <div className="w-100 carousel-container fade-in">
         <Carousel>
           {carouselImages.map((image) => (
             <Carousel.Item key={image.id}>
@@ -121,7 +121,7 @@ const HomePage = () => {
       </div>
 
       {/* Product Listing */}
-      <Container className="mt-5">
+      <Container className="mt-5 fade-in">
         <Row>
           {products.map((product) => (
             <Col md={4} key={product.id} className="mb-4">

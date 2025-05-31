@@ -22,7 +22,7 @@ export default function CartPage() {
     <>
       <div className="full-page-layout shopping-cart-page">
         <HeaderComponent />
-        <div className="full-page-content">
+        <div className="full-page-content fade-in">
           <Container className="py-5">
             <h1 className="text-center mb-4">Seu Carrinho de Compras</h1>
             <p className="text-center mb-5">

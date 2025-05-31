@@ -9,7 +9,7 @@ export default function ContactPage() {
     <>
       <div className="full-page-layout contact-page">
         <HeaderComponent />
-        <div className="full-page-content">
+        <div className="full-page-content fade-in">
           <Container className="py-5">
             <h1 className="text-center mb-4">Entre em Contato Conosco</h1>
             <p className="text-center mb-5">

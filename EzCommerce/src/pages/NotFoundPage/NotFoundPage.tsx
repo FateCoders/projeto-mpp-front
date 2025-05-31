@@ -22,7 +22,7 @@ export default function NotFound() {
   }, []);
 
   return (
-    <Container className="d-flex align-items-center justify-content-center vh-100">
+    <Container className="d-flex align-items-center justify-content-center vh-100 fade-in">
       <Row className="text-center">
         <Col>
           <div ref={animationContainer} style={{ width: '300px', height: '300px', margin: '0 auto' }}></div>
