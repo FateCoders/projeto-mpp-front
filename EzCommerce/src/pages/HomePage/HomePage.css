@@ -1,0 +1,68 @@
+:root {
+  --color-background: #f8f9fa;
+  --color-text: #212529;
+  --color-primary: #007bff;
+  --color-primary-light: #339eff;
+  --color-text-muted: #6c757d;
+}
+
+.home-page {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+.carousel-container {
+  width: 100%;
+  /* max-width: 900px; */
+  margin: 0 auto;
+  margin-top: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.carousel-container img {
+  height: auto;
+  max-height: 60vh;
+  object-fit: cover;
+}
+
+.carousel-caption {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border: none;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-text {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+@media (prefers-color-scheme: dark) {
+  .home-page {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+  }
+
+  .card {
+    background-color: #2a2a2a;
+    color: #f1f1f1;
+  }
+
+  .carousel-caption {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
