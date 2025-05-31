@@ -34,7 +34,7 @@ const HomePage = () => {
       name: "Tênis Esportivo",
       price: 199.99,
       imageUrl:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+        "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 2,
@@ -48,56 +48,56 @@ const HomePage = () => {
       name: "Jaqueta de Couro",
       price: 499.99,
       imageUrl:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+        "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 4,
       name: "Óculos de Sol",
       price: 129.99,
       imageUrl:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+        "https://images.pexels.com/photos/701877/pexels-photo-701877.jpeg",
     },
     {
       id: 5,
       name: "Bolsa Feminina",
       price: 249.99,
       imageUrl:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+        "https://images.pexels.com/photos/22434760/pexels-photo-22434760/free-photo-of-cinto-correia-cinturao-faixa.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 6,
       name: "Headphones Bluetooth",
       price: 299.99,
       imageUrl:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+        "https://images.pexels.com/photos/30428605/pexels-photo-30428605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 7,
       name: "Headphones Bluetooth",
       price: 299.99,
       imageUrl:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+        "https://images.pexels.com/photos/30428605/pexels-photo-30428605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 8,
       name: "Headphones Bluetooth",
       price: 299.99,
       imageUrl:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+        "https://images.pexels.com/photos/30428605/pexels-photo-30428605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 9,
       name: "Headphones Bluetooth",
       price: 299.99,
       imageUrl:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+        "https://images.pexels.com/photos/30428605/pexels-photo-30428605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 10,
       name: "Headphones Bluetooth",
       price: 299.99,
       imageUrl:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+        "https://images.pexels.com/photos/30428605/pexels-photo-30428605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
   ];
 
