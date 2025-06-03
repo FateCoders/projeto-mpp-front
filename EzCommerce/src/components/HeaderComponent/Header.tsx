@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
+import { useCategory } from "../../contexts/CategoryContext";
+import logo from "../../assets/images/svg/logo.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import logo from "../../assets/images/svg/logo.svg";
 import "./Header.css";
 
-const categories = ["Eletrônicos", "Roupas", "Casa", "Brinquedos"];
+const categories = ["Limpar", "Eletrônicos", "Roupas", "Casa", "Brinquedos"];
 
 const Header: React.FC = () => {
   const [expanded, setExpanded] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const location = useLocation();
+  const { setSelectedCategory } = useCategory();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -20,7 +21,6 @@ const Header: React.FC = () => {
     setSelectedCategory(category);
     setShowCategories(false);
     setExpanded(false);
-    console.log("Categoria selecionada:", category);
   };
 
   return (
@@ -32,18 +32,11 @@ const Header: React.FC = () => {
       className="custom-navbar"
     >
       <Container>
-        <Navbar.Brand
-          as={Link}
-          to="/"
-          className="fw-bold d-flex align-items-center gap-2 text-white"
-        >
+        <Navbar.Brand as={Link} to="/" className="fw-bold d-flex align-items-center gap-2 text-white">
           <img src={logo} alt="Logo EzCommerce" height="30" />
           EzCommerce
         </Navbar.Brand>
-        <Navbar.Toggle
-          aria-controls="basic-navbar-nav"
-          onClick={() => setExpanded(!expanded)}
-        />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setExpanded(!expanded)} />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto gap-3">
             <Nav.Link
@@ -52,8 +45,7 @@ const Header: React.FC = () => {
               className={`nav-section ${isActive("/") ? "active" : ""}`}
               onClick={() => setExpanded(false)}
             >
-              <i className="bi bi-house-door-fill me-1"></i>
-              Home
+              <i className="bi bi-house-door-fill me-1"></i> Home
             </Nav.Link>
 
             <Nav.Link
@@ -62,8 +54,7 @@ const Header: React.FC = () => {
               className={`nav-section ${isActive("/contact") ? "active" : ""}`}
               onClick={() => setExpanded(false)}
             >
-              <i className="bi bi-envelope-fill me-1"></i>
-              Contato
+              <i className="bi bi-envelope-fill me-1"></i> Contato
             </Nav.Link>
 
             <Nav.Link
@@ -72,8 +63,7 @@ const Header: React.FC = () => {
               className={`nav-section ${isActive("/cart") ? "active" : ""}`}
               onClick={() => setExpanded(false)}
             >
-              <i className="bi bi-cart-fill me-1"></i>
-              Carrinho
+              <i className="bi bi-cart-fill me-1"></i> Carrinho
             </Nav.Link>
 
             <Nav.Item
@@ -82,31 +72,28 @@ const Header: React.FC = () => {
               onMouseLeave={() => setShowCategories(false)}
               style={{ cursor: "pointer" }}
             >
-              <div className="d-flex align-items-center  h-100 text-white">
-                Categorias
-                <i className="bi bi-caret-down-fill ms-1"></i>
+              <div className="d-flex align-items-center h-100 text-white">
+                Categorias <i className="bi bi-caret-down-fill ms-1"></i>
               </div>
 
               {showCategories && (
                 <div
                   className="position-absolute bg-white rounded shadow"
-                  style={{
-                    top: "100%",
-                    left: 0,
-                    minWidth: "150px",
-                    zIndex: 1000,
-                  }}
+                  style={{ top: "100%", left: 0, minWidth: "150px", zIndex: 1000 }}
                 >
-                  {categories.map((cat) => (
-                    <div
-                      key={cat}
-                      className="px-3 py-2 text-dark hover-bg-light"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => handleCategorySelect(cat)}
-                    >
-                      {cat}
-                    </div>
-                  ))}
+                  {categories.map((cat) => {
+                    const isClearFilter = cat === "Limpar";
+                    return (
+                      <div
+                        key={cat || "limpar"}
+                        className={`px-3 py-2 text-dark ${isClearFilter ? "bg-danger bg-opacity-10 text-danger fw-semibold" : "hover-bg-light"}`}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleCategorySelect(isClearFilter ? "" : cat)}
+                      >
+                        {isClearFilter ? "Limpar filtro" : cat}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </Nav.Item>

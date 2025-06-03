@@ -3,15 +3,19 @@ import HeaderComponent from "../../components/HeaderComponent/Header";
 import FooterComponent from "../../components/FooterComponent/Footer";
 import ProductCard from "../../components/CardComponent/Card";
 import "./HomePage.css";
+import { useCategory } from "../../contexts/CategoryContext";
 
 type Product = {
   id: number;
   name: string;
   price: number;
   imageUrl: string;
+  category: string;
 };
 
 const HomePage = () => {
+  const { selectedCategory } = useCategory();
+
   const carouselImages = [
     {
       id: 1,
@@ -43,6 +47,7 @@ const HomePage = () => {
       price: 199.99,
       imageUrl:
         "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      category: "Roupas",
     },
     {
       id: 2,
@@ -50,6 +55,7 @@ const HomePage = () => {
       price: 349.99,
       imageUrl:
         "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+      category: "Acessórios",
     },
     {
       id: 3,
@@ -57,29 +63,38 @@ const HomePage = () => {
       price: 499.99,
       imageUrl:
         "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      category: "Roupas",
     },
     {
       id: 4,
-      name: "Jaqueta de Couro",
-      price: 499.99,
+      name: "Smartphone",
+      price: 1299.99,
       imageUrl:
-        "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      category: "Eletrônicos",
     },
     {
       id: 5,
-      name: "Jaqueta de Couro",
-      price: 499.99,
+      name: "Sofá 3 Lugares",
+      price: 999.99,
       imageUrl:
-        "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      category: "Casa",
     },
     {
       id: 6,
-      name: "Jaqueta de Couro",
-      price: 499.99,
+      name: "Boneca de Pano",
+      price: 59.99,
       imageUrl:
-        "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://images.pexels.com/photos/3661355/pexels-photo-3661355.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      category: "Brinquedos",
     },
   ];
+
+  // Aplica o filtro de categoria
+  const filteredProducts = selectedCategory
+    ? products.filter((product) => product.category === selectedCategory)
+    : products;
 
   const handleAddToCart = (product: { id: number; name: string; price: number }) => {
     const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
@@ -116,8 +131,13 @@ const HomePage = () => {
 
       {/* Product Listing */}
       <Container className="mt-5 fade-in">
+        <h2 className="mb-4">
+          {selectedCategory
+            ? `Produtos de ${selectedCategory}`
+            : "Todos os Produtos"}
+        </h2>
         <Row>
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <Col md={4} key={product.id} className="mb-4">
               <ProductCard
                 id={product.id}
