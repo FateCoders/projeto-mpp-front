@@ -29,3 +29,28 @@
   text-align: center;
   padding: 1rem;
 }
+
+
+/* Css do loade-squeleton */
+
+.skeleton-image {
+  height: 250px;
+  background-color: #e0e0e0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #e0e0e0;
+  }
+
+  50% {
+    background-color: #f0f0f0;
+  }
+
+  100% {
+    background-color: #e0e0e0;
+  }
+}

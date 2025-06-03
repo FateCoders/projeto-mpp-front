@@ -1,7 +1,9 @@
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Carousel } from "react-bootstrap";
 import HeaderComponent from "../../components/HeaderComponent/Header";
 import FooterComponent from "../../components/FooterComponent/Footer";
 import ProductCard from "../../components/CardComponent/Card";
+import ProductCardSkeleton from "../../components/CardComponent/CardSkeleton"; // Novo componente
 import "./HomePage.css";
 import { useCategory } from "../../contexts/CategoryContext";
 
@@ -15,6 +17,8 @@ type Product = {
 
 const HomePage = () => {
   const { selectedCategory } = useCategory();
+  const [isLoading, setIsLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
 
   const carouselImages = [
     {
@@ -40,7 +44,7 @@ const HomePage = () => {
     },
   ];
 
-  const products: Product[] = [
+  const mockProducts: Product[] = [
     {
       id: 1,
       name: "Tênis Esportivo",
@@ -91,7 +95,15 @@ const HomePage = () => {
     },
   ];
 
-  // Aplica o filtro de categoria
+  // Simula carregamento inicial
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setProducts(mockProducts);
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const filteredProducts = selectedCategory
     ? products.filter((product) => product.category === selectedCategory)
     : products;
@@ -137,17 +149,23 @@ const HomePage = () => {
             : "Todos os Produtos"}
         </h2>
         <Row>
-          {filteredProducts.map((product) => (
-            <Col md={4} key={product.id} className="mb-4">
-              <ProductCard
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                imageUrl={product.imageUrl}
-                onAddToCart={handleAddToCart}
-              />
-            </Col>
-          ))}
+          {isLoading
+            ? Array.from({ length: 6 }).map((_, i) => (
+              <Col key={i} md={4} className="mb-4">
+                <ProductCardSkeleton />
+              </Col>
+            ))
+            : filteredProducts.map((product) => (
+              <Col key={product.id} md={4} className="mb-4">
+                <ProductCard
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  imageUrl={product.imageUrl}
+                  onAddToCart={handleAddToCart}
+                />
+              </Col>
+            ))}
         </Row>
       </Container>
 

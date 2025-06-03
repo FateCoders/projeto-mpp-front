@@ -1,7 +1,7 @@
-// src/components/ProductCard/ProductCard.tsx
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import "./Card.css";
+import "../../App.css"
 
 type ProductCardProps = {
   name: string;
@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onAddToCart,
 }) => {
   return (
-    <Card className="product-card">
+    <Card className="product-card fade-in">
       <Card.Img variant="top" src={imageUrl} alt={name} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>

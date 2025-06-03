@@ -1,5 +1,4 @@
 :root {
-  /* Light mode */
   --color-primary: #28a745;
   --color-primary-light: #a6e3b8;
   --color-secondary: #007bff;
@@ -29,7 +28,6 @@
   }
 }
 
-/* Estilos globais */
 body {
   background-color: var(--color-background);
   color: var(--color-text);
@@ -50,13 +48,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 80px; /* espaço para header fixo */
-  padding-bottom: 60px; /* espaço para footer */
+  padding-top: 80px;
+  padding-bottom: 60px;
   background-color: var(--color-surface);
   color: var(--color-text);
 }
 
-/* Transição de entrada */
 .fade-in {
   animation: fadeIn 0.6s ease-in-out;
 }
@@ -66,6 +63,7 @@ body {
     opacity: 0;
     transform: translateY(15px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
