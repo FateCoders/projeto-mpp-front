@@ -1,23 +1,33 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// src/components/ProductCard/ProductCard.tsx
+import React from "react";
+import { Card, Button } from "react-bootstrap";
+import "./Card.css";
 
-const Cardd: React.FC = () => {
+type ProductCardProps = {
+  name: string;
+  price: number;
+  imageUrl: string;
+  id: number;
+  onAddToCart: (product: { id: number; name: string; price: number }) => void;
+};
+
+const ProductCard: React.FC<ProductCardProps> = ({
+  id,
+  name,
+  price,
+  imageUrl,
+  onAddToCart,
+}) => {
   return (
-    <Card className="w-100" style={{ maxWidth: '18rem' }}>
-      <Card.Img style={{ maxHeight: '114px' }} variant="top" src="https://static.nationalgeographicbrasil.com/files/styles/image_3200/public/mm1012723121410486.jpg?w=1900&h=2849" />
+    <Card className="product-card">
+      <Card.Img variant="top" src={imageUrl} alt={name} />
       <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary" className="w-100">
-          Detalhes
-        </Button>
-        <div style={{padding:'3%'}}></div>
-        <Button variant="success" className="w-100">
+        <Card.Title>{name}</Card.Title>
+        <Card.Text>R$ {price.toFixed(2)}</Card.Text>
+        <Button
+          variant="primary"
+          onClick={() => onAddToCart({ id, name, price })}
+        >
           Adicionar ao Carrinho
         </Button>
       </Card.Body>
@@ -25,4 +35,4 @@ const Cardd: React.FC = () => {
   );
 };
 
-export default Cardd;
+export default ProductCard;

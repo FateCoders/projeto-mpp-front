@@ -1,7 +1,15 @@
-import { Container, Row, Col, Card, Carousel } from "react-bootstrap";
+import { Container, Row, Col, Carousel } from "react-bootstrap";
 import HeaderComponent from "../../components/HeaderComponent/Header";
 import FooterComponent from "../../components/FooterComponent/Footer";
+import ProductCard from "../../components/CardComponent/Card";
 import "./HomePage.css";
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  imageUrl: string;
+};
 
 const HomePage = () => {
   const carouselImages = [
@@ -28,7 +36,7 @@ const HomePage = () => {
     },
   ];
 
-  const products = [
+  const products: Product[] = [
     {
       id: 1,
       name: "Tênis Esportivo",
@@ -52,54 +60,40 @@ const HomePage = () => {
     },
     {
       id: 4,
-      name: "Óculos de Sol",
-      price: 129.99,
+      name: "Jaqueta de Couro",
+      price: 499.99,
       imageUrl:
-        "https://images.pexels.com/photos/701877/pexels-photo-701877.jpeg",
+        "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 5,
-      name: "Bolsa Feminina",
-      price: 249.99,
+      name: "Jaqueta de Couro",
+      price: 499.99,
       imageUrl:
-        "https://images.pexels.com/photos/22434760/pexels-photo-22434760/free-photo-of-cinto-correia-cinturao-faixa.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       id: 6,
-      name: "Headphones Bluetooth",
-      price: 299.99,
+      name: "Jaqueta de Couro",
+      price: 499.99,
       imageUrl:
-        "https://images.pexels.com/photos/30428605/pexels-photo-30428605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      id: 7,
-      name: "Headphones Bluetooth",
-      price: 299.99,
-      imageUrl:
-        "https://images.pexels.com/photos/30428605/pexels-photo-30428605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      id: 8,
-      name: "Headphones Bluetooth",
-      price: 299.99,
-      imageUrl:
-        "https://images.pexels.com/photos/30428605/pexels-photo-30428605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      id: 9,
-      name: "Headphones Bluetooth",
-      price: 299.99,
-      imageUrl:
-        "https://images.pexels.com/photos/30428605/pexels-photo-30428605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      id: 10,
-      name: "Headphones Bluetooth",
-      price: 299.99,
-      imageUrl:
-        "https://images.pexels.com/photos/30428605/pexels-photo-30428605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
   ];
+
+  const handleAddToCart = (product: { id: number; name: string; price: number }) => {
+    const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+    const existingItemIndex = cart.findIndex((item: any) => item.id === product.id);
+
+    if (existingItemIndex !== -1) {
+      cart[existingItemIndex].quantity += 1;
+    } else {
+      cart.push({ ...product, quantity: 1 });
+    }
+
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+    alert(`${product.name} foi adicionado ao carrinho.`);
+  };
 
   return (
     <div className="full-page-layout home-page">
@@ -125,17 +119,13 @@ const HomePage = () => {
         <Row>
           {products.map((product) => (
             <Col md={4} key={product.id} className="mb-4">
-              <Card className="product-card">
-                <Card.Img
-                  variant="top"
-                  src={product.imageUrl}
-                  alt={product.name}
-                />
-                <Card.Body>
-                  <Card.Title>{product.name}</Card.Title>
-                  <Card.Text>R$ {product.price.toFixed(2)}</Card.Text>
-                </Card.Body>
-              </Card>
+              <ProductCard
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                imageUrl={product.imageUrl}
+                onAddToCart={handleAddToCart}
+              />
             </Col>
           ))}
         </Row>

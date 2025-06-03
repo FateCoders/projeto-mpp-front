@@ -1,16 +1,36 @@
 import HeaderComponent from "../../components/HeaderComponent/Header";
 import FooterComponent from "../../components/FooterComponent/Footer";
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
 import "../../App.css";
 import "./CartPage.css";
 
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
 export default function CartPage() {
-  // Mock data for cart items
-  const cartItems = [
-    { id: 1, name: "Produto A", price: 20.0, quantity: 2 },
-    { id: 2, name: "Produto B", price: 50.0, quantity: 1 },
-    { id: 3, name: "Produto C", price: 30.0, quantity: 3 },
-  ];
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    const storedItems = sessionStorage.getItem("cart");
+    if (storedItems) {
+      setCartItems(JSON.parse(storedItems));
+    }
+  }, []);
+
+  const updateSessionStorage = (items: CartItem[]) => {
+    sessionStorage.setItem("cart", JSON.stringify(items));
+  };
+
+  const removeItem = (id: number) => {
+    const updatedItems = cartItems.filter((item) => item.id !== id);
+    setCartItems(updatedItems);
+    updateSessionStorage(updatedItems);
+  };
 
   const calculateTotal = () => {
     return cartItems
@@ -33,38 +53,53 @@ export default function CartPage() {
               <Col lg={10}>
                 <Card className="cart-card">
                   <Card.Body>
-                    <Table responsive>
-                      <thead>
-                        <tr>
-                          <th className="borderRadiusTableLeft">Produto</th>
-                          <th>Preço</th>
-                          <th>Quantidade</th>
-                          <th>Total</th>
-                          <th className="borderRadiusTableRight">Ações</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {cartItems.map((item) => (
-                          <tr key={item.id}>
-                            <td>{item.name}</td>
-                            <td>R$ {item.price.toFixed(2)}</td>
-                            <td>{item.quantity}</td>
-                            <td>R$ {(item.price * item.quantity).toFixed(2)}</td>
-                            <td>
-                              <Button variant="danger" size="sm">
-                                Remover
-                              </Button>
-                            </td>
+                    {cartItems.length === 0 ? (
+                      <div className="text-center py-5">
+                        <h5>Seu carrinho está vazio.</h5>
+                        <p>Adicione produtos para visualizar aqui.</p>
+                      </div>
+                    ) : (
+                      <Table responsive>
+                        <thead>
+                          <tr>
+                            <th className="borderRadiusTableLeft">Produto</th>
+                            <th>Preço</th>
+                            <th>Quantidade</th>
+                            <th>Total</th>
+                            <th className="borderRadiusTableRight">Ações</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </Table>
+                        </thead>
+                        <tbody>
+                          {cartItems.map((item) => (
+                            <tr key={item.id}>
+                              <td>{item.name}</td>
+                              <td>R$ {item.price.toFixed(2)}</td>
+                              <td>{item.quantity}</td>
+                              <td>
+                                R$ {(item.price * item.quantity).toFixed(2)}
+                              </td>
+                              <td>
+                                <Button
+                                  variant="danger"
+                                  size="sm"
+                                  onClick={() => removeItem(item.id)}
+                                >
+                                  Remover
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    )}
                   </Card.Body>
                 </Card>
 
                 <div className="d-flex justify-content-between align-items-center mt-4">
                   <h5>Total: R$ {calculateTotal()}</h5>
-                  <Button variant="primary">Finalizar Compra</Button>
+                  <Button variant="primary" disabled={cartItems.length === 0}>
+                    Finalizar Compra
+                  </Button>
                 </div>
               </Col>
             </Row>
