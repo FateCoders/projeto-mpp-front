@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { useCategory } from "../../contexts/CategoryContext";
+import { useTheme } from "../../utils/useTheme"; // ✅ Importa o hook de tema
 import logo from "../../assets/images/svg/logo.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -14,6 +15,7 @@ const Header: React.FC = () => {
   const [showCategories, setShowCategories] = useState(false);
   const location = useLocation();
   const { setSelectedCategory } = useCategory();
+  const { theme, toggleTheme } = useTheme(); // ✅ Hook do tema
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -32,13 +34,21 @@ const Header: React.FC = () => {
       className="custom-navbar"
     >
       <Container>
-        <Navbar.Brand as={Link} to="/" className="fw-bold d-flex align-items-center gap-2 text-white">
+        <Navbar.Brand
+          as={Link}
+          to="/"
+          className="fw-bold d-flex align-items-center gap-2 text-white"
+        >
           <img src={logo} alt="Logo EzCommerce" height="30" />
           EzCommerce
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setExpanded(!expanded)} />
+
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          onClick={() => setExpanded(!expanded)}
+        />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto gap-3">
+          <Nav className="ms-auto gap-3 align-items-center">
             <Nav.Link
               as={Link}
               to="/"
@@ -79,16 +89,27 @@ const Header: React.FC = () => {
               {showCategories && (
                 <div
                   className="position-absolute bg-white rounded shadow"
-                  style={{ top: "100%", left: 0, minWidth: "150px", zIndex: 1000 }}
+                  style={{
+                    top: "100%",
+                    left: 0,
+                    minWidth: "150px",
+                    zIndex: 1000,
+                  }}
                 >
                   {categories.map((cat) => {
                     const isClearFilter = cat === "Limpar";
                     return (
                       <div
                         key={cat || "limpar"}
-                        className={`px-3 py-2 text-dark ${isClearFilter ? "bg-danger bg-opacity-10 text-danger fw-semibold" : "hover-bg-light"}`}
+                        className={`px-3 py-2 text-dark ${
+                          isClearFilter
+                            ? "bg-danger bg-opacity-10 text-danger fw-semibold"
+                            : "hover-bg-light"
+                        }`}
                         style={{ cursor: "pointer" }}
-                        onClick={() => handleCategorySelect(isClearFilter ? "" : cat)}
+                        onClick={() =>
+                          handleCategorySelect(isClearFilter ? "" : cat)
+                        }
                       >
                         {isClearFilter ? "Limpar filtro" : cat}
                       </div>
@@ -97,6 +118,21 @@ const Header: React.FC = () => {
                 </div>
               )}
             </Nav.Item>
+
+            {/* ✅ Botão de troca de tema */}
+            <Button
+              variant={"outline-light"}
+              size="sm"
+              onClick={toggleTheme}
+              className="ms-2 align-self-center"
+              title="Alternar tema"
+            >
+              {theme === "light" ? (
+                <i className="bi bi-moon-fill" />
+              ) : (
+                <i className="bi bi-sun-fill" />
+              )}
+            </Button>
           </Nav>
         </Navbar.Collapse>
       </Container>
