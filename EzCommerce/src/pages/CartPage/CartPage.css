@@ -12,7 +12,8 @@
 }
 
 .cart-card {
-  background-color: #f0f2f5; /* mais escuro que o fundo claro, mas suave */
+  background-color: #f0f2f5;
+  /* mais escuro que o fundo claro, mas suave */
   color: var(--color-text);
   border: none;
   border-radius: 10px;
@@ -30,9 +31,13 @@
 .cart-card td {
   vertical-align: middle;
   padding: 12px;
-  border-bottom: 1px solid var(--color-text-muted);
   color: var(--color-text);
   background-color: transparent;
+}
+
+.cart-card td {
+  border-bottom: 1px solid var(--color-text-muted);
+
 }
 
 .cart-card thead {
@@ -76,10 +81,11 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-.borderRadiusTableRight{
+.borderRadiusTableRight {
   border-radius: 0 10px 10px 0;
 }
-.borderRadiusTableLeft{
+
+.borderRadiusTableLeft {
   border-radius: 10px 0 0 10px;
 }
 
