@@ -76,6 +76,15 @@ const Header: React.FC = () => {
               <i className="bi bi-cart-fill me-1"></i> Carrinho
             </Nav.Link>
 
+            <Nav.Link
+              as={Link}
+              to="/perfil"
+              className={`nav-section ${isActive("/perfil") ? "active" : ""}`}
+              onClick={() => setExpanded(false)}
+            >
+              <i className="bi bi-person-fill me-1"></i> Perfil
+            </Nav.Link>
+
             <Nav.Item
               className="nav-section position-relative"
               onMouseEnter={() => setShowCategories(true)}
