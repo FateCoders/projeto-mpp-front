@@ -108,20 +108,6 @@ const HomePage = () => {
     ? products.filter((product) => product.category === selectedCategory)
     : products;
 
-  const handleAddToCart = (product: { id: number; name: string; price: number }) => {
-    const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
-    const existingItemIndex = cart.findIndex((item: any) => item.id === product.id);
-
-    if (existingItemIndex !== -1) {
-      cart[existingItemIndex].quantity += 1;
-    } else {
-      cart.push({ ...product, quantity: 1 });
-    }
-
-    sessionStorage.setItem("cart", JSON.stringify(cart));
-    alert(`${product.name} foi adicionado ao carrinho.`);
-  };
-
   return (
     <div className="full-page-layout home-page">
       <HeaderComponent />
@@ -151,21 +137,20 @@ const HomePage = () => {
         <Row>
           {isLoading
             ? Array.from({ length: 6 }).map((_, i) => (
-              <Col key={i} md={4} className="mb-4">
-                <ProductCardSkeleton />
-              </Col>
-            ))
+                <Col key={i} md={4} className="mb-4">
+                  <ProductCardSkeleton />
+                </Col>
+              ))
             : filteredProducts.map((product) => (
-              <Col key={product.id} md={4} className="mb-4">
-                <ProductCard
-                  id={product.id}
-                  name={product.name}
-                  price={product.price}
-                  imageUrl={product.imageUrl}
-                  onAddToCart={handleAddToCart}
-                />
-              </Col>
-            ))}
+                <Col key={product.id} md={4} className="mb-4">
+                  <ProductCard
+                    id={product.id}
+                    name={product.name}
+                    price={product.price}
+                    imageUrl={product.imageUrl}
+                  />
+                </Col>
+              ))}
         </Row>
       </Container>
 

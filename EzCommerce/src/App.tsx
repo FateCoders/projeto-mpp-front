@@ -1,10 +1,11 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/HomePage/homePage";
-import NotFound from "./pages/NotFoundPage/NotFoundPage";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
-import ContactPage from "./pages/ContactPage/ContactPage";
+import Home from "./pages/HomePage/homePage";
 import Cartpage from "./pages/CartPage/CartPage";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import NotFound from "./pages/NotFoundPage/NotFoundPage";
+import ContactPage from "./pages/ContactPage/ContactPage";
+import ProductPage from "./pages/ProductPage/ProductPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Contact" element={<ContactPage />} />
         <Route path="/Cart" element={<Cartpage />} />
+        <Route path="/produto/:id" element={<ProductPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
