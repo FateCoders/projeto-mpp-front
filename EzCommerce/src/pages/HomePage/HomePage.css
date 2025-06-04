@@ -19,6 +19,11 @@
   object-fit: cover;
 }
 
+.carousel-container button{
+  height: 5px;
+  border-radius: 0 !important;
+}
+
 .carousel-caption {
   background: rgba(0, 0, 0, 0.5);
   border-radius: 8px;
