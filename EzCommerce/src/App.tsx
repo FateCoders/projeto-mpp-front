@@ -15,11 +15,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProductPage from "./pages/ProductPage/ProductPage";
+import ScrollToTop from "./components/ScrollToTop/ScrolltoTop";
 
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Contact" element={<ContactPage />} />
@@ -45,7 +47,7 @@ export default function App() {
           />
 
           <Route path="/produto/:id" element={<ProductPage />} />
-        <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
