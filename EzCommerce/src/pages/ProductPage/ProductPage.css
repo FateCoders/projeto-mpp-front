@@ -1,0 +1,12 @@
+.card_header_img {
+  display: flex;
+}
+
+.card_body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 8px;
+  min-height: 100% !important;
+}

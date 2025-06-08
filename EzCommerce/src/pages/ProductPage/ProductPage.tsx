@@ -5,6 +5,7 @@ import FooterComponent from "../../components/FooterComponent/Footer";
 import { Container, Card, Button, Badge, Col, Row } from "react-bootstrap";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import ProductCard from "../../components/CardComponent/Card";
+import "./ProductPage.css";
 
 type Product = {
   id: number;
@@ -103,8 +104,8 @@ const ProductPage = () => {
       <HeaderComponent />
       <Container style={{ width: "100%" }} className="mt-5 col-12 d-flex">
         <Col sm={12} md={7} className="mx-auto mt-5">
-          <Row className="">
-            <Col sm={12} md={8}>
+          <Row>
+            <Col className="card_header_img" sm={12} md={8}>
               <div
                 style={{
                   width: "100%",
@@ -115,7 +116,8 @@ const ProductPage = () => {
                   overflow: "hidden",
                   margin: "0 auto",
                   paddingTop: "100%",
-                }}>
+                }}
+              >
                 <Card.Img
                   variant="top"
                   src={product.imageUrl}
@@ -133,7 +135,7 @@ const ProductPage = () => {
               </div>
             </Col>
             <Col sm={12} md={4} className="mt-3">
-              <Card.Body>
+              <Card.Body className="card_body">
                 <span>
                   Categoria:{" "}
                   <Badge pill bg="secondary" className="mb-2">
@@ -149,7 +151,8 @@ const ProductPage = () => {
                 <Button
                   variant="success"
                   className="w-100 mb-2"
-                  onClick={() => handleAddToCart(product)}>
+                  onClick={() => handleAddToCart(product)}
+                >
                   <strong>Adicionar ao Carrinho</strong>
                 </Button>
               </Card.Body>
