@@ -6,14 +6,8 @@ import { Container, Card, Button, Badge, Col, Row } from "react-bootstrap";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import ProductCard from "../../components/CardComponent/Card";
 import "./ProductPage.css";
-
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  imageUrl: string;
-  category: string;
-};
+import type { Product } from "../../types/Product";
+import "../../App.css";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -73,6 +67,9 @@ const ProductPage = () => {
   useEffect(() => {
     const found = mockProducts.find((p) => p.id === Number(id));
     setProduct(found);
+
+    // Rola para o topo da página
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
   if (!product) {
@@ -106,31 +103,12 @@ const ProductPage = () => {
         <Col sm={12} md={7} className="mx-auto mt-5">
           <Row>
             <Col className="card_header_img" sm={12} md={8}>
-              <div
-                style={{
-                  width: "100%",
-                  maxWidth: "400px",
-                  position: "relative",
-                  background: "#f8f9fa",
-                  borderRadius: "12px",
-                  overflow: "hidden",
-                  margin: "0 auto",
-                  paddingTop: "100%",
-                }}
-              >
+              <div>
                 <Card.Img
                   variant="top"
                   src={product.imageUrl}
                   alt={product.name}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    objectPosition: "center",
-                  }}
+                  className="product-image"
                 />
               </div>
             </Col>
@@ -165,16 +143,13 @@ const ProductPage = () => {
           <Card.Title>
             <h2 className="mb-5">Ver mais produtos</h2>
           </Card.Title>
-          {mockProducts.map((product) => (
-            <Col key={product.id} sm={6} md={4} className="mb-4">
-              <ProductCard
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                imageUrl={product.imageUrl}
-              />
-            </Col>
-          ))}
+          {mockProducts
+            .filter((p) => p.id !== product.id)
+            .map((product) => (
+              <Col key={product.id} sm={6} md={4} className="mb-4">
+                <ProductCard product={product} />
+              </Col>
+            ))}
         </Row>
       </Container>
       <FooterComponent />

@@ -6,14 +6,7 @@ import ProductCard from "../../components/CardComponent/Card";
 import ProductCardSkeleton from "../../components/CardComponent/CardSkeleton"; // Novo componente
 import "./HomePage.css";
 import { useCategory } from "../../contexts/CategoryContext";
-
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  imageUrl: string;
-  category: string;
-};
+import type { Product } from "../../types/Product";
 
 const HomePage = () => {
   const { selectedCategory } = useCategory();
@@ -143,12 +136,7 @@ const HomePage = () => {
               ))
             : filteredProducts.map((product) => (
                 <Col key={product.id} md={4} className="mb-4">
-                  <ProductCard
-                    id={product.id}
-                    name={product.name}
-                    price={product.price}
-                    imageUrl={product.imageUrl}
-                  />
+                  <ProductCard product={product} />
                 </Col>
               ))}
         </Row>

@@ -2,6 +2,27 @@
   display: flex;
 }
 
+.card_header_img div {
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  background: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 auto;
+  padding-top: 100%;
+}
+
+.product-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .card_body {
   display: flex;
   flex-direction: column;
