@@ -3,26 +3,41 @@ import HeaderComponent from "../../components/HeaderComponent/Header";
 import FooterComponent from "../../components/FooterComponent/Footer";
 import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../../App.css";
 import "./SignInPage.css";
 import PasswordInput from "../../components/PasswordInput/PasswordInput";
+import { login as loginRequest } from "../../services/auth/authService";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function SignInPage() {
-  const [formData, setFormData] = useState({
-    email: "",
-    senha: "",
-  });
+  const [formData, setFormData] = useState({ email: "", senha: "" });
+  const [error, setError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login data:", formData);
-    alert("Login realizado com sucesso!");
+    setError(null);
+    try {
+      const data = await loginRequest(formData.email, formData.senha);
+      login(data.token);
+
+      alert(data.mensagem);
+
+      // Redireciona para a rota anterior ou para "/"
+      const from = (location.state as { from?: Location })?.from?.pathname || "/";
+      navigate(from, { replace: true });
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Erro ao fazer login");
+    }
   };
 
   return (
@@ -42,10 +57,15 @@ export default function SignInPage() {
                   >
                     <h2 className="text-center mb-4">Entrar no EzCommerce</h2>
                     <Form onSubmit={handleSubmit}>
+                      {error && (
+                        <div className="alert alert-danger" role="alert">
+                          {error}
+                        </div>
+                      )}
+
                       <Form.Group className="mb-3" controlId="email">
                         <Form.Label>
-                          <i className="bi bi-envelope-fill me-2"></i>
-                          Email:
+                          <i className="bi bi-envelope-fill me-2"></i>Email:
                         </Form.Label>
                         <Form.Control
                           type="email"
@@ -80,6 +100,7 @@ export default function SignInPage() {
                           Entrar
                         </Button>
                       </div>
+
                       <div className="text-center mt-3">
                         <span>Ainda não tem uma conta? </span>
                         <Link
