@@ -31,7 +31,7 @@ export async function register(userData: {
   cidade: string;
   estado: string;
 }) {
-  const response = await api.post("/register", userData);
+  const response = await api.post("/registrar", userData);
   return response.data;
 }
 
