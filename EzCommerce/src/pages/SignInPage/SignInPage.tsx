@@ -9,10 +9,12 @@ import "./SignInPage.css";
 import PasswordInput from "../../components/PasswordInput/PasswordInput";
 import { login as loginRequest } from "../../services/auth/authService";
 import { useAuth } from "../../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 export default function SignInPage() {
   const [formData, setFormData] = useState({ email: "", senha: "" });
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,19 +28,36 @@ export default function SignInPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
+
     try {
       const data = await loginRequest(formData.email, formData.senha);
       login(data.token);
 
-      alert(data.mensagem);
+      await Swal.fire({
+        icon: "success",
+        title: "Login realizado!",
+        text: data.mensagem,
+        confirmButtonColor: "#3085d6"
+      });
 
-      // Redireciona para a rota anterior ou para "/"
       const from = (location.state as { from?: Location })?.from?.pathname || "/";
       navigate(from, { replace: true });
     } catch (err: any) {
-      setError(err.response?.data?.message || "Erro ao fazer login");
+      const errorMessage = err.response?.data.erro || "Erro ao fazer login";
+      setError(errorMessage);
+
+      await Swal.fire({
+        icon: "error",
+        title: "Erro ao entrar",
+        text: errorMessage,
+        confirmButtonColor: "#d33"
+      });
+    } finally {
+      setLoading(false);
     }
   };
+
 
   return (
     <div className="full-page-layout contact-page">
@@ -90,15 +109,21 @@ export default function SignInPage() {
 
                       <div className="text-center">
                         <Button
-                          className="w-100"
+                          className="w-100 d-flex align-items-center justify-content-center"
                           type="submit"
                           variant="primary"
-                          disabled={
-                            !formData.email.trim() || !formData.senha.trim()
-                          }
+                          disabled={loading || !formData.email.trim() || !formData.senha.trim()}
                         >
-                          Entrar
+                          {loading && (
+                            <span
+                              className="spinner-border spinner-border-sm me-2"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                          )}
+                          {loading ? "Entrando..." : "Entrar"}
                         </Button>
+
                       </div>
 
                       <div className="text-center mt-3">
