@@ -17,7 +17,6 @@ const ProductPage = () => {
   const [product, setProduct] = useState<Product | undefined>();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-
   const mockProducts: Product[] = [
     {
       id: 1,
@@ -130,11 +129,11 @@ const ProductPage = () => {
   }
   return (
     <div className="full-page-layout">
-      <HeaderComponent />
+      <HeaderComponent variant="back" backTitle="Voltar" onBack={() => navigate(-1)}/>
       <Container style={{ width: "100%" }} className="mt-5 col-12 d-flex">
         <Col sm={12} md={7} className="mx-auto mt-5">
           <Row>
-            <Col className="card_header_img" sm={12} md={8}>
+            <Col className="card_header_img" sm={12} md={7}>
               <div>
                 <Card.Img
                   variant="top"
@@ -144,7 +143,7 @@ const ProductPage = () => {
                 />
               </div>
             </Col>
-            <Col sm={12} md={4} className="mt-3">
+            <Col sm={12} md={5} className="mt-3">
               <Card.Body className="card_body">
                 <span>
                   Categoria:{" "}

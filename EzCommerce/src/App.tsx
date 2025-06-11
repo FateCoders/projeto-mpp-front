@@ -40,9 +40,9 @@ export default function App() {
           <Route
             path="/Perfil"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <PerfilPage />
-              </ProtectedRoute>
+              /* </ProtectedRoute> */
             }
           />
 
