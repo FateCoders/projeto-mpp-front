@@ -1,17 +1,22 @@
 import { useParams } from "react-router-dom";
+import { Container, Card, Button, Badge, Col, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import type { Product } from "../../types/Product";
 import HeaderComponent from "../../components/HeaderComponent/Header";
 import FooterComponent from "../../components/FooterComponent/Footer";
-import { Container, Card, Button, Badge, Col, Row } from "react-bootstrap";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import ProductCard from "../../components/CardComponent/Card";
+import Swal from "sweetalert2";
 import "./ProductPage.css";
-import type { Product } from "../../types/Product";
 import "../../App.css";
 
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<Product | undefined>();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const mockProducts: Product[] = [
     {
@@ -76,11 +81,28 @@ const ProductPage = () => {
     return <NotFound />;
   }
 
-  const handleAddToCart = (product: {
+  const handleAddToCart = async (product: {
     id: number;
     name: string;
     price: number;
   }) => {
+    if (!isAuthenticated) {
+      const result = await Swal.fire({
+        title: "Você precisa estar logado",
+        text: "Deseja fazer login para adicionar produtos ao carrinho?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Fazer login",
+        cancelButtonText: "Cancelar",
+      });
+
+      if (result.isConfirmed) {
+        navigate("/signin", { state: { from: location.pathname } });
+      }
+      return;
+    }
+
+    // Lógica para adicionar ao carrinho
     const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
     const existingItemIndex = cart.findIndex(
       (item: any) => item.id === product.id
@@ -93,9 +115,19 @@ const ProductPage = () => {
     }
 
     sessionStorage.setItem("cart", JSON.stringify(cart));
-    alert(`${product.name} foi adicionado ao carrinho.`);
+
+    Swal.fire({
+      icon: "success",
+      title: "Produto adicionado!",
+      text: `${product.name} foi adicionado ao carrinho.`,
+      timer: 2000,
+      showConfirmButton: false,
+    });
   };
 
+  if (!product) {
+    return <NotFound />;
+  }
   return (
     <div className="full-page-layout">
       <HeaderComponent />
