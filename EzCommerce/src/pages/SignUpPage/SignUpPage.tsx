@@ -6,10 +6,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import PasswordInput from "../../components/PasswordInput/PasswordInput";
 import "../../App.css";
 import "./SignUpPage.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { register as registerRequest } from "../../services/auth/authService";
 
 export default function SignUpPage() {
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
@@ -23,26 +28,64 @@ export default function SignUpPage() {
     estado: "",
   });
 
-  const nextStep = () => setStep(step + 1);
-  const backStep = () => setStep(step - 1);
+  const nextStep = () => setStep((prev) => prev + 1);
+  const backStep = () => setStep((prev) => prev - 1);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    alert("Cadastro finalizado!");
-  };
 
-  const renderDots = () => (
-    <div className="step-dots-container mt-4 text-center">
-      <span className={`step-dot ${step === 1 ? "active" : ""}`} />
-      <span className={`step-dot ${step === 2 ? "active" : ""}`} />
-    </div>
-  );
+    if (formData.senha !== formData.confirmPassword) {
+      await Swal.fire({
+        icon: "error",
+        title: "Senhas não coincidem",
+        text: "Verifique os campos de senha e confirmação.",
+        confirmButtonColor: "#d33",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const payload = {
+        nome: formData.nome,
+        email: formData.email,
+        telefone: formData.telefone,
+        senha: formData.senha,
+        cep: formData.cep,
+        endereco: formData.endereco,
+        bairro: formData.bairro,
+        cidade: formData.cidade,
+        estado: formData.estado,
+      };
+
+      const response = await registerRequest(payload);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Cadastro realizado!",
+        text: response.mensagem || "Conta criada com sucesso.",
+        confirmButtonColor: "#3085d6",
+      });
+
+      navigate("/signin");
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.erro || "Erro ao cadastrar";
+      await Swal.fire({
+        icon: "error",
+        title: "Erro no cadastro",
+        text: errorMessage,
+        confirmButtonColor: "#d33",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const animationProps = {
     initial: { opacity: 0, x: 50 },
@@ -60,16 +103,14 @@ export default function SignUpPage() {
             <Col md={8}>
               <Card className="p-4 shadow">
                 <Card.Body>
-                  <h2 className="text-center mb-4">Bem-vindo ao EzCommerce</h2>
+                  <h2 className="text-center mb-4">Criar sua conta no EzCommerce</h2>
 
                   <Form onSubmit={handleSubmit}>
                     <AnimatePresence mode="wait">
                       {step === 1 && (
                         <motion.div key="step1" {...animationProps}>
                           <Form.Group className="mb-3" controlId="nome">
-                            <Form.Label>
-                              <i className="bi bi-person-fill me-2"></i>Nome:
-                            </Form.Label>
+                            <Form.Label>Nome:</Form.Label>
                             <Form.Control
                               type="text"
                               name="nome"
@@ -81,9 +122,7 @@ export default function SignUpPage() {
                           </Form.Group>
 
                           <Form.Group className="mb-3" controlId="email">
-                            <Form.Label>
-                              <i className="bi bi-envelope-fill me-2"></i>Email:
-                            </Form.Label>
+                            <Form.Label>Email:</Form.Label>
                             <Form.Control
                               type="email"
                               name="email"
@@ -95,10 +134,7 @@ export default function SignUpPage() {
                           </Form.Group>
 
                           <Form.Group className="mb-3" controlId="telefone">
-                            <Form.Label>
-                              <i className="bi bi-telephone-fill me-2"></i>
-                              Telefone:
-                            </Form.Label>
+                            <Form.Label>Telefone:</Form.Label>
                             <Form.Control
                               type="tel"
                               name="telefone"
@@ -110,29 +146,20 @@ export default function SignUpPage() {
                           </Form.Group>
 
                           <PasswordInput
-                            label={
-                              <>
-                                <i className="bi bi-lock-fill me-2"></i>Senha:
-                              </>
-                            }
+                            label="Senha:"
                             name="senha"
                             value={formData.senha}
                             onChange={handleChange}
                           />
 
                           <PasswordInput
-                            label={
-                              <>
-                                <i className="bi bi-lock-fill me-2"></i>
-                                Confirmar Senha:
-                              </>
-                            }
+                            label="Confirmar Senha:"
                             name="confirmPassword"
                             value={formData.confirmPassword}
                             onChange={handleChange}
                           />
 
-                          <div className="text-end">
+                          <div className="text-end mt-3">
                             <Button
                               variant="primary"
                               onClick={nextStep}
@@ -154,9 +181,7 @@ export default function SignUpPage() {
                       {step === 2 && (
                         <motion.div key="step2" {...animationProps}>
                           <Form.Group className="mb-3" controlId="cep">
-                            <Form.Label>
-                              <i className="bi bi-geo-alt-fill me-2"></i>CEP:
-                            </Form.Label>
+                            <Form.Label>CEP:</Form.Label>
                             <Form.Control
                               type="text"
                               name="cep"
@@ -168,10 +193,7 @@ export default function SignUpPage() {
                           </Form.Group>
 
                           <Form.Group className="mb-3" controlId="endereco">
-                            <Form.Label>
-                              <i className="bi bi-house-door-fill me-2"></i>
-                              Endereço:
-                            </Form.Label>
+                            <Form.Label>Endereço:</Form.Label>
                             <Form.Control
                               type="text"
                               name="endereco"
@@ -183,10 +205,7 @@ export default function SignUpPage() {
                           </Form.Group>
 
                           <Form.Group className="mb-3" controlId="bairro">
-                            <Form.Label>
-                              <i className="bi bi-signpost-2-fill me-2"></i>
-                              Bairro:
-                            </Form.Label>
+                            <Form.Label>Bairro:</Form.Label>
                             <Form.Control
                               type="text"
                               name="bairro"
@@ -198,9 +217,7 @@ export default function SignUpPage() {
                           </Form.Group>
 
                           <Form.Group className="mb-3" controlId="cidade">
-                            <Form.Label>
-                              <i className="bi bi-building me-2"></i>Cidade:
-                            </Form.Label>
+                            <Form.Label>Cidade:</Form.Label>
                             <Form.Control
                               type="text"
                               name="cidade"
@@ -211,11 +228,8 @@ export default function SignUpPage() {
                             />
                           </Form.Group>
 
-                          <Form.Group className="mb-4" controlId="estado">
-                            <Form.Label>
-                              <i className="bi bi-globe-americas me-2"></i>
-                              Estado:
-                            </Form.Label>
+                          <Form.Group className="mb-3" controlId="estado">
+                            <Form.Label>Estado:</Form.Label>
                             <Form.Control
                               type="text"
                               name="estado"
@@ -226,7 +240,7 @@ export default function SignUpPage() {
                             />
                           </Form.Group>
 
-                          <div className="d-flex justify-content-between">
+                          <div className="d-flex justify-content-between mt-3">
                             <Button variant="danger" onClick={backStep}>
                               Anterior
                             </Button>
@@ -234,6 +248,7 @@ export default function SignUpPage() {
                               variant="primary"
                               type="submit"
                               disabled={
+                                loading ||
                                 !formData.cep.trim() ||
                                 !formData.endereco.trim() ||
                                 !formData.bairro.trim() ||
@@ -241,24 +256,33 @@ export default function SignUpPage() {
                                 !formData.estado.trim()
                               }
                             >
-                              Finalizar Cadastro
+                              {loading ? (
+                                <>
+                                  <span
+                                    className="spinner-border spinner-border-sm me-2"
+                                    role="status"
+                                  ></span>
+                                  Cadastrando...
+                                </>
+                              ) : (
+                                "Finalizar Cadastro"
+                              )}
                             </Button>
                           </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
-
-                    {renderDots()}
-                    <div className="text-center mt-3">
-                      <span>Já tem uma conta? </span>
-                      <Link
-                        to="/signin"
-                        className="text-primary fw-bold text-decoration-none"
-                      >
-                        Entrar
-                      </Link>
-                    </div>
                   </Form>
+
+                  <div className="text-center mt-3">
+                    <span>Já tem uma conta? </span>
+                    <Link
+                      to="/signin"
+                      className="text-primary fw-bold text-decoration-none"
+                    >
+                      Entrar
+                    </Link>
+                  </div>
                 </Card.Body>
               </Card>
             </Col>
