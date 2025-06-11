@@ -2,20 +2,30 @@ import React, { useState } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { useCategory } from "../../contexts/CategoryContext";
-import { useTheme } from "../../utils/useTheme"; // ✅ Importa o hook de tema
+import { useTheme } from "../../utils/useTheme";
 import logo from "../../assets/images/svg/logo.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./Header.css";
 
+interface HeaderProps {
+  variant?: "default" | "back";
+  backTitle?: string;
+  onBack?: () => void;
+}
+
 const categories = ["Limpar", "Eletrônicos", "Roupas", "Casa", "Brinquedos"];
 
-const Header: React.FC = () => {
+const HeaderComponent: React.FC<HeaderProps> = ({
+  variant = "default",
+  backTitle = "Voltar",
+  onBack,
+}) => {
   const [expanded, setExpanded] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const location = useLocation();
   const { setSelectedCategory } = useCategory();
-  const { theme, toggleTheme } = useTheme(); // ✅ Hook do tema
+  const { theme, toggleTheme } = useTheme();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -24,6 +34,32 @@ const Header: React.FC = () => {
     setShowCategories(false);
     setExpanded(false);
   };
+
+  let content;
+
+  if (variant === "back") {
+    content = (
+      <Button
+        variant="link"
+        className="text-white p-0 d-flex align-items-center"
+        onClick={onBack}
+      >
+        <i className="bi bi-arrow-left me-2"></i>{" "}
+        <span style={{ textDecoration: "none" }}>{backTitle}</span>
+      </Button>
+    );
+  } else {
+    content = (
+      <Navbar.Brand
+        as={Link}
+        to="/"
+        className="fw-bold d-flex align-items-center gap-2 text-white"
+      >
+        <img src={logo} alt="Logo EzCommerce" height="30" />
+        EzCommerce
+      </Navbar.Brand>
+    );
+  }
 
   return (
     <Navbar
@@ -34,14 +70,7 @@ const Header: React.FC = () => {
       className="custom-navbar"
     >
       <Container>
-        <Navbar.Brand
-          as={Link}
-          to="/"
-          className="fw-bold d-flex align-items-center gap-2 text-white"
-        >
-          <img src={logo} alt="Logo EzCommerce" height="30" />
-          EzCommerce
-        </Navbar.Brand>
+        {content}
 
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
@@ -128,7 +157,6 @@ const Header: React.FC = () => {
               )}
             </Nav.Item>
 
-            {/* ✅ Botão de troca de tema */}
             <Button
               variant={"outline-light"}
               size="sm"
@@ -149,4 +177,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default HeaderComponent;
