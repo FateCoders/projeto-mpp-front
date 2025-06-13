@@ -19,7 +19,7 @@ body[data-theme="light"] {
 body[data-theme="dark"] {
   --color-primary: #28a745;
   --color-primary-light: #a0e6b4;
-  --color-secondary: #66b2ff;
+  --color-secondary: #007bff;
   --color-accent: #ffde85;
 
   --color-background: #1e1e1e;

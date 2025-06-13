@@ -1,9 +1,40 @@
 .profile-page {
-  background-color: #f8f9fa;
+  background-color: var(--color-background);
+  color: var(--color-text);
   min-height: 100vh;
-  margin-top: 30px;
 }
 
-.profile-info hr {
-  border-color: #dee2e6;
+.profile-card {
+  background-color: var(--color-card-background);
+  color: var(--color-text);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.header-card {
+  background-color: var(--color-secondary);
+  border-radius: 10px 10px 0 0;
+}
+
+.profile-header {
+  margin-top: -60px;
+  padding-bottom: 1rem;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 5px solid var(--color-surface);
+  background-color: var(--color-surface);
+}
+
+/* Modo escuro */
+@media (prefers-color-scheme: dark) {
+  .profile-card {
+    background-color: var(--color-card-background);
+    color: var(--color-text);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
 }
