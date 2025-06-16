@@ -1,9 +1,105 @@
 .profile-page {
-  background-color: #f8f9fa;
+  background-color: var(--color-background);
+  color: var(--color-text);
   min-height: 100vh;
-  margin-top: 30px;
+  margin-top: 2rem;
+}
+
+.profile-page .card {
+  background-color: var(--color-card-background);
+  border-radius: 15px;
+  border: none;
+  color: var(--color-text);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px !important;
+  overflow: hidden;
+}
+
+.profile-page .card-top {
+  background-color: var(--color-primary);
+}
+
+.profile-page .text-center .border-white {
+  border-color: var(--color-background) !important;
+}
+
+.profile-info {
+  margin-top: 1rem;
+}
+
+.profile-page .text-primary {
+  color: var(--color-primary) !important;
 }
 
 .profile-info hr {
-  border-color: #dee2e6;
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 8px 0;
+}
+
+.profile-info .accordion-item {
+  border: none;
+  background: none;
+  color: var(--color-text);
+}
+
+.profile-info .accordion-body {
+  padding: 1rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.profile-info .accordion-button {
+  background-color: transparent;
+  color: var(--color-text);
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.profile-info .accordion-button:focus {
+  box-shadow: none;
+  border-color: transparent;
+}
+
+.profile-info .accordion-button:not(.collapsed) {
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--color-text);
+}
+
+.profile-info .accordion-button::after {
+  font-family: "bootstrap-icons";
+  content: "\f285";
+  background-image: none;
+  font-weight: 600;
+  transform: rotate(0deg);
+  transition: transform 0.2s ease-in-out;
+}
+
+.profile-info .accordion-button:not(.collapsed)::after {
+  transform: rotate(90deg);
+}
+
+.profile-page .btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 8px;
+  transition: filter 0.2s ease;
+}
+
+.profile-page .btn-primary:hover {
+  filter: brightness(90%);
+}
+
+@media (prefers-color-scheme: dark) {
+
+  .profile-info hr,
+  .profile-info .accordion-body {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .profile-info .accordion-button {
+    color: var(--color-text);
+  }
 }

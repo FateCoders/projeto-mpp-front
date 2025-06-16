@@ -64,6 +64,10 @@ body {
   color: var(--color-text);
 }
 
+.fade-in-dropdown {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
 .fade-in {
   animation: fadeIn 0.6s ease-in-out;
 }
