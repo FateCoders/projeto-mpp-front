@@ -1,9 +1,6 @@
 import { Container, Row, Col, Image, Button, Card, Accordion } from "react-bootstrap";
 import HeaderComponent from "../../components/HeaderComponent/Header";
 import FooterComponent from "../../components/FooterComponent/Footer";
-import { useTheme } from "../../utils/useTheme";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import "./PerfilPage.css";
 import "../../App.css";
 
@@ -77,15 +74,49 @@ function ProfilePage() {
                   <InfoItem icon="eye-fill" label="Senha" hasArrow />
                 </div>
 
-                <Button variant="primary" className="w-100 mt-4">
-                  Editar Perfil
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+                <div
+                  className="header-card text-center mt-n5"
+                  style={{
+                    borderRadius: "0 0 20px 20px",
+                  }}
+                >
+                  <Image
+                    src="https://images.pexels.com/photos/1435517/pexels-photo-1435517.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                    roundedCircle
+                    className="border border-white border-5"
+                    style={{
+                      width: "120px",
+                      height: "120px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <h5 className="mt-3 mb-0 fw-semibold">Nome</h5>
+                  <p className="small">nome@email.com</p>
+                </div>
 
+                <Card.Body>
+                  <div className="profile-info">
+                    <InfoItem
+                      icon="bi bi-geo-alt-fill"
+                      label="R. Jouvenal Lau, 155, Vila Robertinho, 180000-00"
+                    />
+                    <InfoItem icon="telephone-fill" label="(15) 99999-9999" />
+                    <InfoItem
+                      icon="bi bi-archive-fill"
+                      label="Histórico de Compras"
+                    />
+                    <InfoItem icon="eye-fill" label="Senha" hasArrow />
+                  </div>
+
+                  <Button variant="primary" className="w-100 mt-4">
+                    Editar Perfil
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </div>
       <FooterComponent />
     </div>
   );
