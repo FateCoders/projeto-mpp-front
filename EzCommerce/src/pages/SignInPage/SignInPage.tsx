@@ -4,12 +4,12 @@ import FooterComponent from "../../components/FooterComponent/Footer";
 import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import "../../App.css";
-import "./SignInPage.css";
 import PasswordInput from "../../components/PasswordInput/PasswordInput";
 import { login as loginRequest } from "../../services/auth/authService";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
+import "./SignInPage.css";
+import "../../App.css";
 
 export default function SignInPage() {
   const [formData, setFormData] = useState({ email: "", senha: "" });
@@ -38,10 +38,11 @@ export default function SignInPage() {
         icon: "success",
         title: "Login realizado!",
         text: data.mensagem,
-        confirmButtonColor: "#3085d6"
+        confirmButtonColor: "#3085d6",
       });
 
-      const from = (location.state as { from?: Location })?.from?.pathname || "/";
+      const from =
+        (location.state as { from?: Location })?.from?.pathname || "/";
       navigate(from, { replace: true });
     } catch (err: any) {
       const errorMessage = err.response?.data.erro || "Erro ao fazer login";
@@ -51,17 +52,20 @@ export default function SignInPage() {
         icon: "error",
         title: "Erro ao entrar",
         text: errorMessage,
-        confirmButtonColor: "#d33"
+        confirmButtonColor: "#d33",
       });
     } finally {
       setLoading(false);
     }
   };
 
-
   return (
-    <div className="full-page-layout contact-page">
-      <HeaderComponent />
+    <div className="full-page-layout signin-page">
+      <HeaderComponent
+        variant="back"
+        backTitle="Voltar"
+        onBack={() => navigate(-1)}
+      />
       <div className="full-page-content fade-in">
         <Container className="py-5">
           <Row className="justify-content-center">
@@ -112,7 +116,11 @@ export default function SignInPage() {
                           className="w-100 d-flex align-items-center justify-content-center"
                           type="submit"
                           variant="primary"
-                          disabled={loading || !formData.email.trim() || !formData.senha.trim()}
+                          disabled={
+                            loading ||
+                            !formData.email.trim() ||
+                            !formData.senha.trim()
+                          }
                         >
                           {loading && (
                             <span
@@ -123,7 +131,6 @@ export default function SignInPage() {
                           )}
                           {loading ? "Entrando..." : "Entrar"}
                         </Button>
-
                       </div>
 
                       <div className="text-center mt-3">

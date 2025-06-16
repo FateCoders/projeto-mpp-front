@@ -17,7 +17,11 @@ import "../../App.css";
 
 function ProfilePage() {
   const { theme, toggleTheme } = useTheme();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   const enderecoCompleto = user
     ? `${user.endereco}, ${user.bairro}, ${user.cidade} - ${user.estado}`
@@ -83,7 +87,6 @@ function ProfilePage() {
                         </div>
                       </Accordion.Body>
                     </Accordion.Item>
-
                     <Accordion.Item eventKey="1">
                       <Accordion.Header>
                         <i className="bi bi-geo-alt-fill me-3 text-primary fs-5"></i>
@@ -130,7 +133,7 @@ function ProfilePage() {
                                 />
                               </Form.Group>
                             </Col>
-                            <Col md={6}>
+                             <Col md={6}>
                               <Form.Group className="mb-3">
                                 <Form.Label>Estado</Form.Label>
                                 <Form.Control
@@ -141,12 +144,13 @@ function ProfilePage() {
                             </Col>
                           </Row>
                           <div className="d-grid">
-                            <Button variant="secondary">Salvar Endereço</Button>
+                            <Button variant="secondary">
+                              Salvar Endereço
+                            </Button>
                           </div>
                         </Form>
                       </Accordion.Body>
                     </Accordion.Item>
-
                     <Accordion.Item eventKey="2">
                       <Accordion.Header>
                         <i className="bi bi-telephone-fill me-3 text-primary fs-5"></i>
@@ -162,12 +166,13 @@ function ProfilePage() {
                             />
                           </Form.Group>
                           <div className="d-grid">
-                            <Button variant="secondary">Salvar Telefone</Button>
+                            <Button variant="secondary">
+                              Salvar Telefone
+                            </Button>
                           </div>
                         </Form>
                       </Accordion.Body>
                     </Accordion.Item>
-
                     <Accordion.Item eventKey="3">
                       <Accordion.Header>
                         <i className="bi bi-archive-fill me-3 text-primary fs-5"></i>
@@ -177,7 +182,6 @@ function ProfilePage() {
                         Sem histórico de compras no momento.
                       </Accordion.Body>
                     </Accordion.Item>
-
                     <Accordion.Item eventKey="4">
                       <Accordion.Header>
                         <i className="bi bi-eye-fill me-3 text-primary fs-5"></i>
@@ -203,6 +207,20 @@ function ProfilePage() {
                             <Button variant="secondary">Mudar Senha</Button>
                           </div>
                         </Form>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="5">
+                      <Accordion.Header>
+                        <i className="bi bi-box-arrow-right me-3 text-danger fs-5"></i>
+                        <span>Sair</span>
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p>Deseja realmente encerrar a sessão?</p>
+                        <div className="d-grid">
+                          <Button variant="danger" onClick={handleLogout}>
+                            Sim, quero sair
+                          </Button>
+                        </div>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>

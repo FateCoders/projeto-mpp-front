@@ -75,7 +75,7 @@ export default function SignUpPage() {
 
       navigate("/signin");
     } catch (err: any) {
-      const errorMessage = err.response?.data?.erro || "Erro ao cadastrar";
+      const errorMessage = err.message || "Erro ao cadastrar";
       await Swal.fire({
         icon: "error",
         title: "Erro no cadastro",
@@ -96,14 +96,20 @@ export default function SignUpPage() {
 
   return (
     <div className="full-page-layout contact-page">
-      <HeaderComponent />
+      <HeaderComponent
+        variant="back"
+        backTitle="Voltar"
+        onBack={() => navigate(-1)}
+      />
       <div className="full-page-content fade-in">
         <Container className="py-5">
           <Row className="justify-content-center">
             <Col md={8}>
               <Card className="p-4 shadow">
                 <Card.Body>
-                  <h2 className="text-center mb-4">Criar sua conta no EzCommerce</h2>
+                  <h2 className="text-center mb-4">
+                    Criar sua conta no EzCommerce
+                  </h2>
 
                   <Form onSubmit={handleSubmit}>
                     <AnimatePresence mode="wait">

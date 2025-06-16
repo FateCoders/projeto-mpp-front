@@ -1,5 +1,9 @@
 /* SignInPage.css */
 
+.signin-page {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
 .card h2 {
   color: var(--color-primary);
   font-weight: bold;
