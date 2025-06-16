@@ -65,6 +65,12 @@
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.profile-info .form-control {
+  color: var(--color-text);
+  border: none;
+  background: var(--color-background);
+}
+
 .profile-info .accordion-button {
   background-color: transparent;
   color: var(--color-text);

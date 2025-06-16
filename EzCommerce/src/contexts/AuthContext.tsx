@@ -1,34 +1,73 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+// src/contexts/AuthContext.tsx
+
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { 
+    checkAuthStatus, 
+    logout as serviceLogout,
+    login as serviceLogin
+} from "./../services/auth/authService"; // Ajuste o caminho se necessário
+
+type UserType = {
+  id: number;
+  nome: string;
+  email: string;
+  telefone: string;
+  cep: string;
+  endereco: string;
+  bairro: string;
+  cidade: string;
+  estado: string;
+};
 
 type AuthContextType = {
   isAuthenticated: boolean;
-  login: (token: string) => void;
+  user: UserType | null;
+  isLoading: boolean;
+  login: (email: string, senha: string) => Promise<void>;
   logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<UserType | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Verifica se há token ao carregar
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token); // true se houver token
+    const verifyAuth = async () => {
+      const response = await checkAuthStatus();
+      if (response && response.usuario) {
+        setUser(response.usuario);
+      }
+      setIsLoading(false);
+    };
+
+    verifyAuth();
   }, []);
 
-  const login = (token: string) => {
-    localStorage.setItem("token", token);
-    setIsAuthenticated(true);
+  const login = async (email: string, senha: string) => {
+    const response = await serviceLogin(email, senha);
+    if (response && response.usuario && response.token) {
+        localStorage.setItem("token", response.token);
+        setUser(response.usuario);
+    }
   };
-
+  
   const logout = () => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
+    serviceLogout();
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider 
+      value={{ 
+        user,
+        isAuthenticated: !!user, 
+        isLoading, 
+        login, 
+        logout 
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -36,6 +75,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within AuthProvider");
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
   return context;
 };

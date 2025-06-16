@@ -39,6 +39,18 @@ export function logout() {
   localStorage.removeItem("token");
 }
 
-export function isAuthenticated(): boolean {
-  return !!localStorage.getItem("token");
+export async function checkAuthStatus(): Promise<{ usuario: UserType } | null> {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return null;
+  }
+
+try {
+    const response = await api.get("/verificar-token");
+    return response.data;
+  } catch (_) {
+    logout();
+    return null;
+  }
 }
