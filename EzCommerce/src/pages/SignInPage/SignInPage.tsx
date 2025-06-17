@@ -5,7 +5,6 @@ import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import PasswordInput from "../../components/PasswordInput/PasswordInput";
-import { login as loginRequest } from "../../services/auth/authService";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import "./SignInPage.css";
@@ -31,21 +30,21 @@ export default function SignInPage() {
     setLoading(true);
 
     try {
-      const data = await loginRequest(formData.email, formData.senha);
-      login(data.token);
+      await login(formData.email, formData.senha);
 
       await Swal.fire({
         icon: "success",
         title: "Login realizado!",
-        text: data.mensagem,
+        text: "Você será redirecionado em breve.",
         confirmButtonColor: "#3085d6",
       });
 
       const from =
-        (location.state as { from?: Location })?.from?.pathname || "/";
+        (location.state as { from?: Location })?.from?.pathname || "/perfil";
       navigate(from, { replace: true });
+
     } catch (err: any) {
-      const errorMessage = err.response?.data.erro || "Erro ao fazer login";
+      const errorMessage = err.response?.data?.erro || "Email ou senha inválidos.";
       setError(errorMessage);
 
       await Swal.fire({
@@ -58,7 +57,6 @@ export default function SignInPage() {
       setLoading(false);
     }
   };
-
   return (
     <div className="full-page-layout signin-page">
       <HeaderComponent

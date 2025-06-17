@@ -1,6 +1,7 @@
 import axios from "axios";
+import type { UserType } from "../../types/auth";
 
-const API_URL = import.meta.env.VITE_API_URL || "";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -20,37 +21,29 @@ export async function login(email: string, senha: string) {
   return response.data;
 }
 
-export async function register(userData: {
-  nome: string;
-  email: string;
-  telefone: string;
-  senha: string;
-  cep: string;
-  endereco: string;
-  bairro: string;
-  cidade: string;
-  estado: string;
-}) {
+export async function register(userData: Omit<UserType, 'id'>) {
   const response = await api.post("/registrar", userData);
   return response.data;
 }
 
-export function logout() {
-  localStorage.removeItem("token");
+export async function logout() {
+  try {
+    await api.post("/logout");
+  } catch (error) {
+    console.error("Falha ao deslogar no servidor:", error);
+  }
 }
 
 export async function checkAuthStatus(): Promise<{ usuario: UserType } | null> {
   const token = localStorage.getItem("token");
-
   if (!token) {
     return null;
   }
 
-try {
+  try {
     const response = await api.get("/verificar-token");
     return response.data;
   } catch (_) {
-    logout();
     return null;
   }
 }

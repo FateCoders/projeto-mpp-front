@@ -1,23 +1,10 @@
-// src/contexts/AuthContext.tsx
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { 
-    checkAuthStatus, 
-    logout as serviceLogout,
-    login as serviceLogin
-} from "./../services/auth/authService"; // Ajuste o caminho se necessário
-
-type UserType = {
-  id: number;
-  nome: string;
-  email: string;
-  telefone: string;
-  cep: string;
-  endereco: string;
-  bairro: string;
-  cidade: string;
-  estado: string;
-};
+import {
+  checkAuthStatus,
+  logout as serviceLogout,
+  login as serviceLogin,
+} from "../services/auth/authService";
+import type { UserType } from "../types/auth";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -29,14 +16,16 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const verifyAuth = async () => {
       const response = await checkAuthStatus();
-      if (response && response.usuario) {
+      if (response?.usuario) {
         setUser(response.usuario);
       }
       setIsLoading(false);
@@ -47,25 +36,26 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = async (email: string, senha: string) => {
     const response = await serviceLogin(email, senha);
-    if (response && response.usuario && response.token) {
-        localStorage.setItem("token", response.token);
-        setUser(response.usuario);
+    if (response?.usuario && response?.token) {
+      localStorage.setItem("token", response.token);
+      setUser(response.usuario);
     }
   };
-  
-  const logout = () => {
-    serviceLogout();
+
+  const logout = async () => {
+    await serviceLogout();
+    localStorage.removeItem("token");
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider 
-      value={{ 
+    <AuthContext.Provider
+      value={{
         user,
-        isAuthenticated: !!user, 
-        isLoading, 
-        login, 
-        logout 
+        isAuthenticated: !!user,
+        isLoading,
+        login,
+        logout,
       }}
     >
       {children}

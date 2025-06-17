@@ -78,7 +78,8 @@ const HeaderComponent: React.FC<HeaderProps> = ({
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto gap-3 align-items-center">
             <Nav.Item
-              className="nav-section position-relative"
+              style={{ display: isActive("/") ? "block" : "none" }}
+              className={`nav-section position-relative`}
               onMouseEnter={() => setShowCategories(true)}
               onMouseLeave={() => setShowCategories(false)}
             >
