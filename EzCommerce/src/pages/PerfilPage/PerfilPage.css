@@ -71,6 +71,10 @@
   background: var(--color-background);
 }
 
+.profile-info .form-control::placeholder  {
+  color: var(--color-text);
+}
+
 .profile-info .accordion-button {
   background-color: transparent;
   color: var(--color-text);
