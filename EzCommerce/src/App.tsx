@@ -46,7 +46,7 @@ export default function App() {
             }
           />
 
-          <Route path="/produto/:id" element={<ProductPage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

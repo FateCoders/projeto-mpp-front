@@ -11,7 +11,7 @@ import "../../App.css";
 interface HeaderProps {
   variant?: "default" | "back";
   backTitle?: string;
-  onBack?: () => void;
+  onBack?: () => "/";
 }
 
 const categories = ["Limpar", "Eletrônicos", "Roupas", "Casa", "Brinquedos"];

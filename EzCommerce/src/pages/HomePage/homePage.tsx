@@ -7,6 +7,7 @@ import ProductCardSkeleton from "../../components/CardComponent/CardSkeleton"; /
 import "./HomePage.css";
 import { useCategory } from "../../contexts/CategoryContext";
 import type { Product } from "../../types/Product";
+import { fetchProducts } from "../../services/productService";
 
 const HomePage = () => {
   const { selectedCategory } = useCategory();
@@ -37,75 +38,36 @@ const HomePage = () => {
     },
   ];
 
-  const mockProducts: Product[] = [
-    {
-      id: 1,
-      name: "Tênis Esportivo",
-      price: 199.99,
-      imageUrl:
-        "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      category: "Roupas",
-    },
-    {
-      id: 2,
-      name: "Relógio Moderno",
-      price: 349.99,
-      imageUrl:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
-      category: "Acessórios",
-    },
-    {
-      id: 3,
-      name: "Jaqueta de Couro",
-      price: 499.99,
-      imageUrl:
-        "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      category: "Roupas",
-    },
-    {
-      id: 4,
-      name: "Smartphone",
-      price: 1299.99,
-      imageUrl:
-        "https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      category: "Eletrônicos",
-    },
-    {
-      id: 5,
-      name: "Sofá 3 Lugares",
-      price: 999.99,
-      imageUrl:
-        "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      category: "Casa",
-    },
-    {
-      id: 6,
-      name: "Boneca de Pano",
-      price: 59.99,
-      imageUrl:
-        "https://images.pexels.com/photos/3661355/pexels-photo-3661355.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      category: "Brinquedos",
-    },
-  ];
-
-  // Simula carregamento inicial
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setProducts(mockProducts);
-      setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
+    async function loadProducts() {
+      try {
+        const data = await fetchProducts();
+        const formatted = data.map((p: any) => ({
+          id: p.id,
+          nome: p.nome,
+          preco: p.preco,
+          categoria: p.categoria,
+          imagem: p.imagem,
+        }));
+        setProducts(formatted);
+      } catch (error) {
+        console.error("Erro ao carregar produtos:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadProducts();
   }, []);
 
   const filteredProducts = selectedCategory
-    ? products.filter((product) => product.category === selectedCategory)
+    ? products.filter((product) => product.categoria === selectedCategory)
     : products;
 
   return (
     <div className="full-page-layout home-page">
       <HeaderComponent />
 
-      {/* Carousel */}
       <div className="w-100 carousel-container fade-in">
         <Carousel>
           {carouselImages.map((image) => (
@@ -120,7 +82,6 @@ const HomePage = () => {
         </Carousel>
       </div>
 
-      {/* Product Listing */}
       <Container className="mt-5 fade-in">
         <h2 className="mb-4">
           {selectedCategory
@@ -130,15 +91,15 @@ const HomePage = () => {
         <Row>
           {isLoading
             ? Array.from({ length: 6 }).map((_, i) => (
-                <Col key={i} md={4} className="mb-4">
-                  <ProductCardSkeleton />
-                </Col>
-              ))
+              <Col key={i} md={4} className="mb-4">
+                <ProductCardSkeleton />
+              </Col>
+            ))
             : filteredProducts.map((product) => (
-                <Col key={product.id} md={4} className="mb-4">
-                  <ProductCard product={product} />
-                </Col>
-              ))}
+              <Col key={product.id} md={4} className="mb-4">
+                <ProductCard product={product} />
+              </Col>
+            ))}
         </Row>
       </Container>
 

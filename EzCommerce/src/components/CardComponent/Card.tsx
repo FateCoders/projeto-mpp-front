@@ -1,3 +1,5 @@
+// src/components/CardComponent/Card.tsx
+
 import React from "react";
 import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -12,16 +14,22 @@ type ProductCardProps = {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const navigate = useNavigate();
 
+  const handleNavigate = () => {
+    navigate(`/product/${product.id}`, { state: { product } });
+  };
+
   return (
     <Card
       className="product-card fade-in"
       style={{ cursor: "pointer" }}
-      onClick={() => navigate(`/produto/${product.id}`)}
+      onClick={handleNavigate}
     >
-      <Card.Img variant="top" src={product.imageUrl} alt={product.name} />
+      <Card.Img variant="top" src={product.imagem} alt={product.nome}
+        loading="lazy"
+      />
       <Card.Body>
-        <Card.Title>{product.name}</Card.Title>
-        <Card.Text>R$ {product.price.toFixed(2)}</Card.Text>
+        <Card.Title>{product.nome}</Card.Title>
+        <Card.Text>R$ {product.preco}</Card.Text>
       </Card.Body>
     </Card>
   );
