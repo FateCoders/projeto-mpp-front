@@ -1,5 +1,3 @@
-// src/pages/ProductPage/ProductPage.tsx
-
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { Container, Card, Button, Badge, Col, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
