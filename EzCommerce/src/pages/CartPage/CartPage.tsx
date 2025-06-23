@@ -7,9 +7,9 @@ import "./CartPage.css";
 
 interface CartItem {
   id: number;
-  name: string;
-  price: number;
-  quantity: number;
+  nome: string;
+  preco: number;
+  quantidade: number;
 }
 
 export default function CartPage() {
@@ -34,7 +34,7 @@ export default function CartPage() {
 
   const calculateTotal = () => {
     return cartItems
-      .reduce((total, item) => total + item.price * item.quantity, 0)
+      .reduce((total, item) => total + item.preco * item.quantidade, 0)
       .toFixed(2);
   };
 
@@ -72,11 +72,11 @@ export default function CartPage() {
                         <tbody>
                           {cartItems.map((item) => (
                             <tr key={item.id}>
-                              <td>{item.name}</td>
-                              <td>R$ {item.price.toFixed(2)}</td>
-                              <td>{item.quantity}</td>
+                              <td>{item.nome}</td>
+                              <td>R$ {item.preco}</td>
+                              <td>{item.quantidade}</td>
                               <td>
-                                R$ {(item.price * item.quantity).toFixed(2)}
+                                R$ {(item.preco * item.quantidade).toFixed(2)}
                               </td>
                               <td>
                                 <Button

@@ -10,6 +10,7 @@ import SignInPage from "./pages/SignInPage/SignInPage";
 
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import SignRoute from "./routes/SignRoute";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -25,10 +26,24 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Contact" element={<ContactPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/signin" element={<SignInPage />} />
+          <Route
+            path="/signup"
+            element={
+              <SignRoute>
+                <SignUpPage />
+              </SignRoute>
+            }
+          />
 
-          {/* Rotas protegidas */}
+          <Route
+            path="/signin"
+            element={
+              <SignRoute>
+                <SignInPage />
+              </SignRoute>
+
+            } />
+
           <Route
             path="/Cart"
             element={

@@ -84,9 +84,9 @@ const ProductPage = () => {
     const existingItemIndex = cart.findIndex((item: any) => item.id === productToAdd.id);
 
     if (existingItemIndex !== -1) {
-      cart[existingItemIndex].quantity += 1;
+      cart[existingItemIndex].quantidade += 1;
     } else {
-      cart.push({ ...productToAdd, quantity: 1 });
+      cart.push({ ...productToAdd, quantidade: 1 });
     }
 
     sessionStorage.setItem("cart", JSON.stringify(cart));
