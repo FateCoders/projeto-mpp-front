@@ -1,0 +1,29 @@
+@startuml
+!theme plain
+
+class AuthProvider {
+  - user: UserType | null
+  - isLoading: boolean
+  + login(email: string, senha: string): Promise<void>
+  + logout(): void
+}
+
+class AuthContextType {
+  + isAuthenticated: boolean
+  + user: UserType | null
+  + isLoading: boolean
+  + login(email: string, senha: string): Promise<void>
+  + logout(): void
+}
+
+class AuthContext
+
+class useAuth {
+  + (): AuthContextType
+}
+
+AuthProvider ..> AuthContextType : implements
+AuthProvider o-- "1" AuthContext : provides
+useAuth ..> AuthContext : uses
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+!theme plain
+
+interface CategoryContextType {
+  + selectedCategory: string | null
+  + setSelectedCategory(category: string | null): void
+}
+
+class CategoryContext
+
+class useCategory {
+  + (): CategoryContextType
+}
+
+class CategoryProvider {
+  - selectedCategory: string | null
+  - setSelectedCategory(category: string | null): void
+}
+
+CategoryProvider o-- "1" CategoryContext : provides
+useCategory ..> CategoryContext : uses
+CategoryProvider ..> CategoryContextType : implements
+
+@enduml

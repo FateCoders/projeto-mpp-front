@@ -1,0 +1,25 @@
+@startuml
+!theme plain
+
+enum Theme {
+  light
+  dark
+}
+
+interface ThemeContextType {
+  + theme: Theme
+  + toggleTheme(): void
+}
+
+class ThemeContext
+
+class ThemeProvider {
+  - theme: Theme
+  - setTheme(theme: Theme): void
+  + toggleTheme(): void
+}
+
+ThemeProvider o-- "1" ThemeContext : provides
+ThemeProvider ..> ThemeContextType : implements
+
+@enduml
