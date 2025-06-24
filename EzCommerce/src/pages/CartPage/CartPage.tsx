@@ -2,18 +2,21 @@ import HeaderComponent from "../../components/HeaderComponent/Header";
 import FooterComponent from "../../components/FooterComponent/Footer";
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import "../../App.css";
 import "./CartPage.css";
 
-interface CartItem {
+export interface CartItem {
   id: number;
   nome: string;
   preco: number;
   quantidade: number;
+  imagem: string;
 }
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedItems = sessionStorage.getItem("cart");
@@ -36,6 +39,15 @@ export default function CartPage() {
     return cartItems
       .reduce((total, item) => total + item.preco * item.quantidade, 0)
       .toFixed(2);
+  };
+
+  const handleCheckout = () => {
+    navigate('/checkout', {
+      state: {
+        items: cartItems,
+        total: calculateTotal()
+      }
+    });
   };
 
   return (
@@ -97,7 +109,11 @@ export default function CartPage() {
 
                 <div className="d-flex justify-content-between align-items-center mt-4">
                   <h5>Total: R$ {calculateTotal()}</h5>
-                  <Button variant="primary" disabled={cartItems.length === 0}>
+                  <Button
+                    variant="primary"
+                    disabled={cartItems.length === 0}
+                    onClick={handleCheckout}
+                  >
                     Finalizar Compra
                   </Button>
                 </div>

@@ -7,20 +7,45 @@ import {
   Card,
   Accordion,
   Form,
+  Spinner,
+  Badge,
 } from "react-bootstrap";
 import HeaderComponent from "../../components/HeaderComponent/Header";
 import FooterComponent from "../../components/FooterComponent/Footer";
 import { useTheme } from "../../utils/useTheme";
 import { useAuth } from "../../contexts/AuthContext";
+import { fetchOrdersByUserId } from "../../services/orderService"; // 1. Importar a função de serviço
+import type { Order } from "../../types/Order";
 import "./PerfilPage.css";
 import "../../App.css";
+import { useState } from "react";
 
 function ProfilePage() {
   const { theme, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(false);
+  const [hasFetchedOrders, setHasFetchedOrders] = useState(false);
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleHistoryToggle = async () => {
+    if (!hasFetchedOrders && user) {
+      setOrdersLoading(true);
+      try {
+        const fetchedOrders = await fetchOrdersByUserId(user.id);
+        setOrders(fetchedOrders.slice(0, 3));
+        console.log("Histórico de pedidos:", fetchedOrders);
+      } catch (error) {
+        console.error("Erro ao buscar histórico de pedidos:", error);
+        setOrders([]);
+      } finally {
+        setOrdersLoading(false);
+        setHasFetchedOrders(true);
+      }
+    }
   };
 
   const enderecoCompleto = user
@@ -78,11 +103,10 @@ function ProfilePage() {
                             {theme === "light" ? "escuro" : "claro"}
                           </span>
                           <i
-                            className={`bi ${
-                              theme === "light"
-                                ? "bi-moon-stars-fill"
-                                : "bi-sun-fill"
-                            }`}
+                            className={`bi ${theme === "light"
+                              ? "bi-moon-stars-fill"
+                              : "bi-sun-fill"
+                              }`}
                           ></i>
                         </div>
                       </Accordion.Body>
@@ -133,7 +157,7 @@ function ProfilePage() {
                                 />
                               </Form.Group>
                             </Col>
-                             <Col md={6}>
+                            <Col md={6}>
                               <Form.Group className="mb-3">
                                 <Form.Label>Estado</Form.Label>
                                 <Form.Control
@@ -174,12 +198,43 @@ function ProfilePage() {
                       </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="3">
-                      <Accordion.Header>
+                      <Accordion.Header onClick={handleHistoryToggle}>
                         <i className="bi bi-archive-fill me-3 text-primary fs-5"></i>
                         <span>Histórico de Compras</span>
                       </Accordion.Header>
                       <Accordion.Body>
-                        Sem histórico de compras no momento.
+                        {ordersLoading ? (
+                          <div className="text-center py-3">
+                            <Spinner animation="border" />
+                          </div>
+                        ) : hasFetchedOrders && orders.length > 0 ? (
+                          orders.map((order: Order) => (
+                            <div key={order.id} className="order-history-item mb-3">
+                              <Row className="align-items-center">
+                                <Col xs={3} md={2}>
+                                  <Image src={order.imagem} alt={order.nome ?? ''} thumbnail />
+                                </Col>
+                                <Col xs={9} md={10}>
+                                  <div className="d-flex justify-content-between">
+                                    <strong>Pedido #{order.id}</strong>
+                                    <Badge pill bg={order.status === 'confirmado' ? 'success' : 'warning'}>
+                                      {order.status}
+                                    </Badge>
+                                  </div>
+                                  <p className=" small mb-1">
+                                    Data: {order.created_at ? new Date(order.created_at).toLocaleDateString() : ''}
+                                  </p>
+                                  <p className="mb-1">{order.nome ?? ''}</p>
+                                  <p className="fw-bold mb-0">Total: R$ {order.preco ? parseFloat(order.preco) : '0.00'}</p>
+                                </Col>
+                              </Row>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-center  py-3">
+                            {hasFetchedOrders ? 'Nenhum pedido encontrado.' : 'Clique no cabeçalho para carregar seu histórico.'}
+                          </p>
+                        )}
                       </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="4">
