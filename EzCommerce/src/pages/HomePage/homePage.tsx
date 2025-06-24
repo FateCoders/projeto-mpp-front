@@ -17,10 +17,10 @@ const HomePage = () => {
   const carouselImages = [
     {
       id: 1,
-      src: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80",
+      src: "https://images.pexels.com/photos/7986994/pexels-photo-7986994.jpeg?_gl=1*1im33bn*_ga*MzAwOTI4NTgzLjE3NDk2NzQzNjY.*_ga_8JE65Q40S6*czE3NTA3MjM4MDUkbzMkZzEkdDE3NTA3MjQ0MTUkajI1JGwwJGgw",
       alt: "Promoção de Verão",
       caption: "Promoção de Verão",
-      description: "Aproveite nossas ofertas de verão com até 50% de desconto!",
+      description: "Aproveite nossas ofertas de verão com até 80% de desconto!",
     },
     {
       id: 2,
@@ -31,7 +31,7 @@ const HomePage = () => {
     },
     {
       id: 3,
-      src: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80",
+      src: "https://images.pexels.com/photos/5872364/pexels-photo-5872364.jpeg?_gl=1*10t7b21*_ga*MzAwOTI4NTgzLjE3NDk2NzQzNjY.*_ga_8JE65Q40S6*czE3NTA3MjM4MDUkbzMkZzEkdDE3NTA3MjM5ODMkajU0JGwwJGgw",
       alt: "Ofertas Especiais",
       caption: "Ofertas Especiais",
       description: "Descontos exclusivos para você!",
@@ -73,8 +73,8 @@ const HomePage = () => {
           {carouselImages.map((image) => (
             <Carousel.Item key={image.id}>
               <img className="d-block w-100" src={image.src} alt={image.alt} />
-              <Carousel.Caption>
-                <h3>{image.caption}</h3>
+              <Carousel.Caption className="carousel-card-title">
+                <h3 style={{fontWeight: "bolder"}}>{image.caption}</h3>
                 <p>{image.description}</p>
               </Carousel.Caption>
             </Carousel.Item>

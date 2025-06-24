@@ -30,6 +30,10 @@
   padding: 1rem;
 }
 
+.carousel-card-title {
+  backdrop-filter: blur(10px);
+}
+
 .card {
   background-color: var(--color-card-background);
   border-radius: 10px;

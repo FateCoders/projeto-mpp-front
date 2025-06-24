@@ -14,7 +14,7 @@ interface HeaderProps {
   onBack?: () => "/";
 }
 
-const categories = ["Limpar", "Eletrônicos", "Roupas", "Casa", "Brinquedos"];
+const categories = ["Limpar", "eletronicos", "roupas", "casa", "brinquedos"];
 
 const HeaderComponent: React.FC<HeaderProps> = ({
   variant = "default",

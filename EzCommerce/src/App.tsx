@@ -17,6 +17,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import ScrollToTop from "./components/ScrollToTop/ScrolltoTop";
+import CheckoutPage from "./pages/CheckoutPage/CheckoutPage";
 
 export default function App() {
   return (
@@ -60,6 +61,12 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route path="/checkout" element={
+            <ProtectedRoute>
+              <CheckoutPage />
+            </ProtectedRoute>
+          } />
 
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="*" element={<NotFound />} />
